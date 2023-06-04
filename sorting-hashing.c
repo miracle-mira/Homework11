@@ -10,35 +10,34 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MAX_ARRAY_SIZE			13	/* prime number */
+/*기호상수 선언*/
+#define MAX_ARRAY_SIZE			13	      
 #define MAX_HASH_TABLE_SIZE 	MAX_ARRAY_SIZE
 
-/* 필요에 따라 함수 추가 가능 */
-int initialize(int **a);
-int freeArray(int *a);
-void printArray(int *a);
+/*함수원형*/
 
-int selectionSort(int *a);
-int insertionSort(int *a);
-int bubbleSort(int *a);
-int shellSort(int *a);
-/* recursive function으로 구현 */
-int quickSort(int *a, int n);
+/*배열 정리*/
+int initialize(int **a);        //배열 초기화 함수 
+int freeArray(int *a);          //동적 할당 해제 함수
+void printArray(int *a);        //배열 출력 함수
 
+/*정렬함수*/
+int selectionSort(int *a);      //선택정렬
+int insertionSort(int *a);      //삽입정렬
+int bubbleSort(int *a);         //버블정렬
+int shellSort(int *a);          //쉘정렬
+int quickSort(int *a, int n);   //퀵정렬: 재귀함수 사용
 
-/* hash code generator, key % MAX_HASH_TABLE_SIZE */
-int hashCode(int key);
-
-/* array a에대 한 hash table을 만든다. */
-int hashing(int *a, int **ht);
-
-/* hash table에서 key를 찾아 hash table의 index return */
-int search(int *ht, int key);
+/*hasing*/
+int hashCode(int key);            //hash code generator, key % MAX_HASH_TABLE_SIZE 
+int hashing(int *a, int **ht);    //array a에대 한 hash table을 만든다.
+int search(int *ht, int key);     ///hash table에서 key를 찾아 hash table의 index return 
 
 
 int main()
 {
 	char command;
+
 	int *array = NULL;
 	int *hashtable = NULL;
 	int key = -1;
@@ -118,6 +117,8 @@ int main()
 	return 1;
 }
 
+
+/*배열 초기화 함수*/
 int initialize(int** a)
 {
 	int *temp = NULL;
@@ -126,7 +127,8 @@ int initialize(int** a)
 	if(*a == NULL) {
 		temp = (int*)malloc(sizeof(int) * MAX_ARRAY_SIZE);
 		*a = temp;  /* 할당된 메모리의 주소를 복사 --> main에서 배열을 control 할수 있도록 함*/
-	} else
+	}
+	else
 		temp = *a;
 
 	/* 랜덤값을 배열의 값으로 저장 */
@@ -136,28 +138,36 @@ int initialize(int** a)
 	return 0;
 }
 
+
+/*동적 할당 해제 함수*/
 int freeArray(int *a)
 {
 	if(a != NULL)
 		free(a);
+
 	return 0;
 }
 
+
+/*배열 출력 함수*/
 void printArray(int *a)
 {
 	if (a == NULL) {
 		printf("nothing to print.\n");
 		return;
 	}
+
 	for(int i = 0; i < MAX_ARRAY_SIZE; i++)
 		printf("a[%02d] ", i);
 	printf("\n");
+
 	for(int i = 0; i < MAX_ARRAY_SIZE; i++)
 		printf("%5d ", a[i]);
 	printf("\n");
 }
 
 
+/*선택정렬*/
 int selectionSort(int *a)
 {
 	int min;
@@ -171,8 +181,9 @@ int selectionSort(int *a)
 
 	for (i = 0; i < MAX_ARRAY_SIZE; i++)
 	{
-		minindex = i;
-		min = a[i];
+		minindex = i; //최소 인덱스 값 저장하는 변수 선언
+		min = a[i];   //현재 최소값 저장하는 변수 선언
+
 		for(j = i+1; j < MAX_ARRAY_SIZE; j++)
 		{
 			if (min > a[j])
@@ -181,6 +192,7 @@ int selectionSort(int *a)
 				minindex = j;
 			}
 		}
+		
 		a[minindex] = a[i];
 		a[i] = min;
 	}
